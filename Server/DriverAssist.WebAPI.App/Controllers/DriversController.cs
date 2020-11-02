@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DriverAssist.Domain.Common.Entities;
 using DriverAssist.WebAPI.Common;
 using DriverAssist.WebAPI.Common.Requests;
 using Microsoft.AspNetCore.JsonPatch;
@@ -26,14 +25,16 @@ namespace DriverAssist.WebAPI.App.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync(PostDriverRequest request, CancellationToken cancellationToken)
         {
-            return null;
+            var result = await _driverService.PostAsync(request, cancellationToken);
+            return result.GetActionResult();
         }
 
         [HttpPut]
         [Route("{id}")]
         public async Task<IActionResult> PutAsync(Guid id, PutDriverRequest request, CancellationToken cancellationToken)
         {
-            return null;
+            var result = await _driverService.PutAsync(id, request, cancellationToken);
+            return result.GetActionResult();
         }
 
         [HttpPatch]
@@ -47,14 +48,23 @@ namespace DriverAssist.WebAPI.App.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
-            return null;
+            var result = await _driverService.GetAsync(id, cancellationToken);
+            return result.GetActionResult();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var result = await _driverService.DeleteAsync(id, cancellationToken);
+            return result.GetActionResult();
         }
 
         [HttpGet]
         public async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
-            _logger.LogDebug("test Driver");
-            return null;
+            var result = await _driverService.ListAsync(cancellationToken);
+            return result.GetActionResult();
         }
     }
 }

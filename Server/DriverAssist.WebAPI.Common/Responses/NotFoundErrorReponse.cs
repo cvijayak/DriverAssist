@@ -1,6 +1,9 @@
-﻿namespace DriverAssist.WebAPI.Common.Responses
+﻿using System;
+
+namespace DriverAssist.WebAPI.Common.Responses
 {
-    public class NotFoundErrorReponse : ResponseBase
+    public class NotFoundErrorReponse : ErrorResponseBase
     {
+        public Guid Id { get; set; }
     }
 }

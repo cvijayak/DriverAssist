@@ -25,14 +25,16 @@ namespace DriverAssist.WebAPI.App.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]PostVehicleRequest request, CancellationToken cancellationToken)
         {
-            return null;
+            var result = await _vehicleService.PostAsync(request, cancellationToken);
+            return result.GetActionResult();
         }
-
+    
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, [FromBody]PutVehicleRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> PutAsync(Guid id, [FromBody] PutVehicleRequest request, CancellationToken cancellationToken)
         {
-            return null;
+            var result = await _vehicleService.PutAsync(id, request, cancellationToken);
+            return result.GetActionResult();
         }
 
         [HttpPatch]
@@ -46,14 +48,23 @@ namespace DriverAssist.WebAPI.App.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
-            return null;
+            var result = await _vehicleService.GetAsync(id, cancellationToken);
+            return result.GetActionResult();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var result = await _vehicleService.DeleteAsync(id, cancellationToken);
+            return result.GetActionResult();
         }
 
         [HttpGet]
         public async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
-            _logger.LogDebug("test Vehicle");
-            return null;
+            var result = await _vehicleService.ListAsync(cancellationToken);
+            return result.GetActionResult();
         }
     }
 }

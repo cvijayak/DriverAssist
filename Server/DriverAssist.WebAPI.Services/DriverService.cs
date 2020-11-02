@@ -143,5 +143,33 @@ namespace DriverAssist.WebAPI.Services
                 StatusCode = HttpStatusCode.OK
             };
         }
+
+        public async Task<ServiceResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var driver = await _driverRepository.GetAsync(id, cancellationToken);
+            if (driver == null)
+            {
+                return new ServiceResult
+                {
+                    Response = new DeleteResponse
+                    {
+                        Id = id,
+                        TypeOfDeletion = DeleteTypeDto.NotFound
+                    },
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+
+            await _driverRepository.DeleteAsync(id, cancellationToken);
+            return new ServiceResult
+            {
+                Response = new DeleteResponse
+                {
+                    Id = id,
+                    TypeOfDeletion = DeleteTypeDto.Deleted
+                },
+                StatusCode = HttpStatusCode.OK
+            };
+        }
     }
 }
