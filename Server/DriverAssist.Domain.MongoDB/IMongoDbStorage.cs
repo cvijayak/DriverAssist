@@ -1,4 +1,4 @@
-﻿using DriverAssist.Domain.Common;
+﻿using DriverAssist.Domain.Common.Entities;
 using MongoDB.Driver;
 
 namespace DriverAssist.Domain.MongoDB

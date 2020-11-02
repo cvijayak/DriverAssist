@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DriverAssist.WebAPI.Common
+namespace DriverAssist.WebAPI.Common.Requests
 {
     public class PostDriverRequest : RequestBase
     {

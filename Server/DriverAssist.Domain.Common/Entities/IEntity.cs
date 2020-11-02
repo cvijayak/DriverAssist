@@ -1,4 +1,4 @@
-﻿namespace DriverAssist.Domain.Common
+﻿namespace DriverAssist.Domain.Common.Entities
 {
     public interface IEntity { }
 

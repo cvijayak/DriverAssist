@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DriverAssist.Domain.Common.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

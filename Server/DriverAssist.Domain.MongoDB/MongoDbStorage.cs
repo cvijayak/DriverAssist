@@ -1,4 +1,4 @@
-﻿using DriverAssist.Domain.Common;
+﻿using DriverAssist.Domain.Common.Entities;
 using DriverAssist.WebAPI.Configs;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DriverAssist.Domain.Common;
+using DriverAssist.Domain.Common.Entities;
 using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Common.Requests;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,13 +14,13 @@ namespace DriverAssist.WebAPI.App.Controllers
     [Route("[controller]")]
     public class DriversController : ControllerBase
     {
-        private ILogger<Driver> _logger;
-        private IDriverRepository _driverRepository;
+        private ILogger<DriversController> _logger;
+        private IDriverSevice _driverService;
 
-        public DriversController(ILogger<Driver> logger, IDriverRepository driverRepository)
+        public DriversController(ILogger<DriversController> logger, IDriverSevice driverService)
         {
             _logger = logger;
-            _driverRepository = driverRepository;
+            _driverService = driverService;
         }
 
         [HttpPost]

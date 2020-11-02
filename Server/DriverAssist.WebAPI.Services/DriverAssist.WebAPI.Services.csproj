@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Results\" />
-    <Folder Include="Responses\" />
+    <ProjectReference Include="..\DriverAssist.WebAPI.Common\DriverAssist.WebAPI.Common.csproj" />
   </ItemGroup>
 
 </Project>
