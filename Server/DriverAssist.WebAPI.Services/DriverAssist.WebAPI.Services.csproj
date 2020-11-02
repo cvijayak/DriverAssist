@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DriverAssist.Domain.Common\DriverAssist.Domain.Common.csproj" />
     <ProjectReference Include="..\DriverAssist.WebAPI.Common\DriverAssist.WebAPI.Common.csproj" />
   </ItemGroup>
 

@@ -12,6 +12,7 @@ namespace DriverAssist.Domain.Common
         Task AddAsync(IEnumerable<T> items, CancellationToken cancellationToken);
         Task<T> UpdateAsync(T entity, CancellationToken cancellationToken);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
-        Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<T> GetAsync(Guid id, CancellationToken cancellationToken);
+        Task<(List<T> Items, long Total)> GetAsync(CancellationToken cancellationToken);
     }
 }

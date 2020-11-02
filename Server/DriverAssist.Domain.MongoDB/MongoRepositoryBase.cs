@@ -42,12 +42,21 @@ namespace DriverAssist.Domain.MongoDB
             await Collection.DeleteOneAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<T> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             return await Collection
                 .AsQueryable()
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<(List<T> Items, long Total)> GetAsync(CancellationToken cancellationToken)
+        {
+            var items = await Collection
+                .AsQueryable()
+                .ToListAsync(cancellationToken);
+
+            return (Items : items, items.Count);
         }
     }
 }

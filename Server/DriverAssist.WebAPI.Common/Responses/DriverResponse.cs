@@ -1,11 +1,9 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
-namespace DriverAssist.Domain.Common.Entities
+namespace DriverAssist.WebAPI.Common.Responses
 {
-
-    public class Driver : IEntity<Guid>
+    public class DriverResponse : ResponseBase
     {
-        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -14,7 +12,7 @@ namespace DriverAssist.Domain.Common.Entities
         public string EmergencyContactNumber { get; set; }
         public string Address { get; set; }
         public string IdentificationNumber { get; set; }
-        public IdentificationNumberType TypeOfIdentification { get; set; }
-        public EmploymentType TypeOfEmployment { get; set; }
+        public IdentificationNumberTypeDto TypeOfIdentification { get; set; }
+        public EmploymentTypeDto TypeOfEmployment { get; set; }
     }
 }
