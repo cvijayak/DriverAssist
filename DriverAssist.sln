@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{6CF6B347-D795-4734-8915-4F7DAA6F2599}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.WebAPI.App", "Server\DriverAssist.WebAPI.App\DriverAssist.WebAPI.App.csproj", "{EAAA14D6-5D2F-45B2-96CD-C00C9AED632D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.WebAPI.Configs", "Server\DriverAssist.WebAPI.Configs\DriverAssist.WebAPI.Configs.csproj", "{25756264-499E-4BCF-9BC1-04C515780DA1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Domain.MongoDB", "Server\DriverAssist.Domain.MongoDB\DriverAssist.Domain.MongoDB.csproj", "{68E4A607-2600-4F4D-817B-73512B81FC20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Domain.Common", "Server\DriverAssist.Domain.Common\DriverAssist.Domain.Common.csproj", "{960F78A8-F365-4391-9A9D-39274B48230A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverAssist.WebAPI.Common", "Server\DriverAssist.WebAPI.Common\DriverAssist.WebAPI.Common.csproj", "{D89F54B4-5A15-4FDB-853E-9B217C1E4C05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAAA14D6-5D2F-45B2-96CD-C00C9AED632D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAAA14D6-5D2F-45B2-96CD-C00C9AED632D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAAA14D6-5D2F-45B2-96CD-C00C9AED632D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAAA14D6-5D2F-45B2-96CD-C00C9AED632D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25756264-499E-4BCF-9BC1-04C515780DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25756264-499E-4BCF-9BC1-04C515780DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25756264-499E-4BCF-9BC1-04C515780DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25756264-499E-4BCF-9BC1-04C515780DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E4A607-2600-4F4D-817B-73512B81FC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E4A607-2600-4F4D-817B-73512B81FC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E4A607-2600-4F4D-817B-73512B81FC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E4A607-2600-4F4D-817B-73512B81FC20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960F78A8-F365-4391-9A9D-39274B48230A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960F78A8-F365-4391-9A9D-39274B48230A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960F78A8-F365-4391-9A9D-39274B48230A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960F78A8-F365-4391-9A9D-39274B48230A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D89F54B4-5A15-4FDB-853E-9B217C1E4C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D89F54B4-5A15-4FDB-853E-9B217C1E4C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D89F54B4-5A15-4FDB-853E-9B217C1E4C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D89F54B4-5A15-4FDB-853E-9B217C1E4C05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EAAA14D6-5D2F-45B2-96CD-C00C9AED632D} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
+		{25756264-499E-4BCF-9BC1-04C515780DA1} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
+		{68E4A607-2600-4F4D-817B-73512B81FC20} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
+		{960F78A8-F365-4391-9A9D-39274B48230A} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
+		{D89F54B4-5A15-4FDB-853E-9B217C1E4C05} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9366AAF9-28E5-4DFB-9C43-C52980DD60C4}
+	EndGlobalSection
+EndGlobal
