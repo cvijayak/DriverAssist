@@ -15,10 +15,12 @@ namespace DriverAssist.WebAPI.Services
     public class VehicleService : IVehicleService
     {
         private readonly IVehicleRepository _vehicleRepository;
+        private readonly IServiceResultFactory _serviceResultFactory;
 
-        public VehicleService(IVehicleRepository vehicleRepository)
+        public VehicleService(IVehicleRepository vehicleRepository, IServiceResultFactory serviceResultFactory)
         {
             _vehicleRepository = vehicleRepository;
+            _serviceResultFactory = serviceResultFactory;
         }
 
         private FuelTypeDto ConvertTo(FuelType fuelType) => fuelType switch
@@ -60,11 +62,7 @@ namespace DriverAssist.WebAPI.Services
             };
 
             await _vehicleRepository.AddAsync(vehicle, cancellationToken);
-            return new ServiceResult
-            {
-                Response = ConvertTo(vehicle),
-                StatusCode = HttpStatusCode.Created
-            };
+            return _serviceResultFactory.Created("", ConvertTo(vehicle));
         }
 
         public async Task<ServiceResult> PutAsync(Guid id, PutVehicleRequest request, CancellationToken cancellationToken)
@@ -72,47 +70,31 @@ namespace DriverAssist.WebAPI.Services
             var vehicle = await _vehicleRepository.GetAsync(id, cancellationToken);
             if (vehicle == null)
             {
-                return new ServiceResult
+                return _serviceResultFactory.NotFound(new NotFoundErrorReponse
                 {
-                    Response = new NotFoundErrorReponse
-                    {
-                        Id = id
-                    },
-                    StatusCode = HttpStatusCode.NotFound
-                };
+                    Id = id
+                });
             }
 
             await _vehicleRepository.UpdateAsync(vehicle, cancellationToken);
-            return new ServiceResult
-            {
-                Response = ConvertTo(vehicle),
-                StatusCode = HttpStatusCode.Created
-            };
+            return _serviceResultFactory.Ok(ConvertTo(vehicle));
         }
 
         public async Task<ServiceResult> ListAsync(CancellationToken cancellationToken)
         {
             var vehicles = await _vehicleRepository.GetAsync(cancellationToken);
-            return new ServiceResult
+            return _serviceResultFactory.Ok(new VehiclesResponse
             {
-                Response = new VehiclesResponse
-                {
-                    Items = (from vehicle in vehicles.Items
-                             select ConvertTo(vehicle)).ToArray(),
-                    Total = vehicles.Total
-                },
-                StatusCode = HttpStatusCode.OK
-            };
+                Items = (from vehicle in vehicles.Items
+                         select ConvertTo(vehicle)).ToArray(),
+                Total = vehicles.Total
+            }); 
         }
 
         public async Task<ServiceResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var vehicle = await _vehicleRepository.GetAsync(id, cancellationToken);
-            return new ServiceResult
-            {
-                Response = ConvertTo(vehicle),
-                StatusCode = HttpStatusCode.OK
-            };
+            return _serviceResultFactory.Ok(ConvertTo(vehicle)); 
         }
 
         public async Task<ServiceResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -120,27 +102,19 @@ namespace DriverAssist.WebAPI.Services
             var driver = await _vehicleRepository.GetAsync(id, cancellationToken);
             if (driver == null)
             {
-                return new ServiceResult
+                return _serviceResultFactory.Ok(new DeleteResponse
                 {
-                    Response = new DeleteResponse
-                    {
-                        Id = id,
-                        TypeOfDeletion = DeleteTypeDto.NotFound
-                    },
-                    StatusCode = HttpStatusCode.OK
-                };
+                    Id = id,
+                    TypeOfDeletion = DeleteTypeDto.NotFound
+                }); 
             }
 
             await _vehicleRepository.DeleteAsync(id, cancellationToken);
-            return new ServiceResult
+            return _serviceResultFactory.Ok(new DeleteResponse
             {
-                Response = new DeleteResponse
-                {
-                    Id = id,
-                    TypeOfDeletion = DeleteTypeDto.Deleted
-                },
-                StatusCode = HttpStatusCode.OK
-            };
+                Id = id,
+                TypeOfDeletion = DeleteTypeDto.Deleted
+            }); 
         }
     }
 }

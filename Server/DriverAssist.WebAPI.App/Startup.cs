@@ -1,5 +1,7 @@
 using DriverAssist.Domain.MongoDB.Extensions;
 using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Common.Results;
+using DriverAssist.WebAPI.Configs;
 using DriverAssist.WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,8 +23,13 @@ namespace DriverAssist.WebAPI.App
         public void ConfigureServices(IServiceCollection services)
         {
             var mongoDBSettings = Configuration.GetSection("MongoDBSettings");
+            var notificationSettings = Configuration.GetSection("NotificationSettings");
 
             services.AddMongoDbProvider(options => options.Bind(mongoDBSettings));
+            services.AddOptions<NotificationSettings>().Bind(notificationSettings);
+
+            services
+                .AddScoped<IServiceResultFactory, ServiceResultFactory>();
 
             services
                 .AddScoped<IDriverSevice, DriverService>()

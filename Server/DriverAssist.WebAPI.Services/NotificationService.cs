@@ -6,7 +6,6 @@ using DriverAssist.WebAPI.Configs;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,10 +15,12 @@ namespace DriverAssist.WebAPI.Services
     public class NotificationService : INotificationService
     {
         private readonly NotificationSettings _notificationSettings;
+        private readonly IServiceResultFactory _serviceResultFactory;
 
-        public NotificationService(IOptions<NotificationSettings> settings)
+        public NotificationService(IOptions<NotificationSettings> settings, IServiceResultFactory serviceResultFactory)
         {
             _notificationSettings = settings.Value;
+            _serviceResultFactory = serviceResultFactory;
         }
 
         public async Task<ServiceResult> NotifyAsync(PostNotificationRequest request, CancellationToken cancellationToken)
@@ -28,14 +29,10 @@ namespace DriverAssist.WebAPI.Services
             {
                 NotificationTypeDto.SMS => await NotifyThroughSms(request.Message, "", cancellationToken),
                 NotificationTypeDto.WhatsApp => await NotifyThroughWhatsApp(request.Message, "", cancellationToken),
-                _ => new ServiceResult
+                _ => _serviceResultFactory.BadRequest(new BadRequestErrorResponse
                 {
-                    Response = new BadRequestErrorResponse
-                    {
-                        Message = "Unknown Notification Type"
-                    },
-                    StatusCode = HttpStatusCode.BadRequest
-                },
+                    Message = "Unknown Notification Type"
+                }),
             };
         }
 
@@ -58,24 +55,16 @@ namespace DriverAssist.WebAPI.Services
                         var status = (int)jObj["Status"];
                         if (status == 0)
                         {
-                            return new ServiceResult
+                            return _serviceResultFactory.Accepted("", new NotificationResponse
                             {
-                                Response = new NotificationResponse
-                                {
-                                },
-                                StatusCode = HttpStatusCode.Accepted
-                            };
+                            });
                         } 
                         else
                         {
-                            return new ServiceResult
+                            return _serviceResultFactory.BadRequest(new BadRequestErrorResponse
                             {
-                                Response = new BadRequestErrorResponse
-                                {
-                                    Message = ""
-                                },
-                                StatusCode = HttpStatusCode.BadRequest
-                            };
+                                Message = ""
+                            });
                         }
                     }
                 }

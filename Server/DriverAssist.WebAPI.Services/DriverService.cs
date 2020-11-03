@@ -6,7 +6,6 @@ using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,10 +14,12 @@ namespace DriverAssist.WebAPI.Services
     public class DriverService : IDriverSevice
     {
         private readonly IDriverRepository _driverRepository;
+        private readonly IServiceResultFactory _serviceResultFactory;
 
-        public DriverService(IDriverRepository driverRepository)
+        public DriverService(IDriverRepository driverRepository, IServiceResultFactory serviceResultFactory)
         {
             _driverRepository = driverRepository;
+            _serviceResultFactory = serviceResultFactory;
         }
 
         private EmploymentTypeDto ConvertTo(EmploymentType employmentType) => employmentType switch
@@ -84,11 +85,7 @@ namespace DriverAssist.WebAPI.Services
             };
 
             await _driverRepository.AddAsync(driver, cancellationToken);
-            return new ServiceResult
-            {
-                Response = ConvertTo(driver),
-                StatusCode = HttpStatusCode.Created
-            };
+            return _serviceResultFactory.Created("", ConvertTo(driver));
         }
 
         public async Task<ServiceResult> PutAsync(Guid id, PutDriverRequest request, CancellationToken cancellationToken)
@@ -96,14 +93,10 @@ namespace DriverAssist.WebAPI.Services
             var driver = await _driverRepository.GetAsync(id, cancellationToken);
             if (driver == null)
             {
-                return new ServiceResult
+                return _serviceResultFactory.NotFound(new NotFoundErrorReponse
                 {
-                    Response = new NotFoundErrorReponse
-                    {
-                        Id = id
-                    },
-                    StatusCode = HttpStatusCode.NotFound
-                };
+                    Id = id
+                });
             }
 
             driver.Address = request.Address;
@@ -112,36 +105,24 @@ namespace DriverAssist.WebAPI.Services
             driver.EmergencyContactNumber = request.EmergencyContactNumber;
 
             await _driverRepository.UpdateAsync(driver, cancellationToken);
-            return new ServiceResult
-            {
-                Response = ConvertTo(driver),
-                StatusCode = HttpStatusCode.Created
-            };
+            return _serviceResultFactory.Ok(ConvertTo(driver));
         }
 
         public async Task<ServiceResult> ListAsync(CancellationToken cancellationToken)
         {
             var drivers = await _driverRepository.GetAsync(cancellationToken);
-            return new ServiceResult
+            return _serviceResultFactory.Ok(new DriversResponse
             {
-                Response = new DriversResponse
-                {
-                    Items = (from driver in drivers.Items
-                            select ConvertTo(driver)).ToArray(),
-                    Total = drivers.Total
-                },
-                StatusCode = HttpStatusCode.OK
-            };
+                Items = (from driver in drivers.Items
+                         select ConvertTo(driver)).ToArray(),
+                Total = drivers.Total
+            });
         }
 
         public async Task<ServiceResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var driver = await _driverRepository.GetAsync(id, cancellationToken);
-            return new ServiceResult
-            {
-                Response = ConvertTo(driver),
-                StatusCode = HttpStatusCode.OK
-            };
+            return _serviceResultFactory.Ok(ConvertTo(driver));
         }
 
         public async Task<ServiceResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -149,27 +130,19 @@ namespace DriverAssist.WebAPI.Services
             var driver = await _driverRepository.GetAsync(id, cancellationToken);
             if (driver == null)
             {
-                return new ServiceResult
+                return _serviceResultFactory.Ok(new DeleteResponse
                 {
-                    Response = new DeleteResponse
-                    {
-                        Id = id,
-                        TypeOfDeletion = DeleteTypeDto.NotFound
-                    },
-                    StatusCode = HttpStatusCode.OK
-                };
+                    Id = id,
+                    TypeOfDeletion = DeleteTypeDto.NotFound
+                });
             }
 
             await _driverRepository.DeleteAsync(id, cancellationToken);
-            return new ServiceResult
+            return _serviceResultFactory.Ok(new DeleteResponse
             {
-                Response = new DeleteResponse
-                {
-                    Id = id,
-                    TypeOfDeletion = DeleteTypeDto.Deleted
-                },
-                StatusCode = HttpStatusCode.OK
-            };
+                Id = id,
+                TypeOfDeletion = DeleteTypeDto.Deleted
+            }); 
         }
     }
 }

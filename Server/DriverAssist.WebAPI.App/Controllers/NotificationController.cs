@@ -23,11 +23,19 @@ namespace DriverAssist.WebAPI.App.Controllers
             _notificationService = notificationService;
         }
 
+        private IActionResultFactory ActionResultFactory
+        {
+            get
+            {
+                return new ActionResultFactory(this);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostAsync(PostNotificationRequest request, CancellationToken cancellationToken)
         {
             var result = await _notificationService.NotifyAsync(request, cancellationToken);
-            return result.GetActionResult(this);
+            return result.GetActionResult(ActionResultFactory);
         }
     }
 }

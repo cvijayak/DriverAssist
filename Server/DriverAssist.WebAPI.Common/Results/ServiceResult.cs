@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -7,20 +7,32 @@ namespace DriverAssist.WebAPI.Common.Results
 {
     public class ServiceResult
     {
-        public IResponse Response { get; set; }
-        public HttpStatusCode StatusCode { get; set; }
-        public IDictionary<string, JToken> Parameters { get; set; }
+        internal ServiceResult() { }
 
-        public IActionResult GetActionResult<T>(T controller) where T : ControllerBase
+        public IDictionary<string, dynamic> Parameters { get; internal set; }
+        public HttpStatusCode StatusCode { get; internal set; }
+        public IResponse Response { get; internal set; }
+
+        public IActionResult GetActionResult(IActionResultFactory actionResultFactory)
         {
+            IActionResult CreateAcceptedActionResult()
+            {
+                return actionResultFactory.Accepted(Parameters["LocationUrl"], Response);
+            }
+
+            IActionResult CreateCreatedActionResult()
+            {
+                return actionResultFactory.Created(Parameters["LocationUrl"], Response);
+            }
+
             return StatusCode switch
             {
-                HttpStatusCode.Accepted => controller.Accepted(Response),
-                HttpStatusCode.Created => controller.Created(string.Empty, Response),
-                HttpStatusCode.OK => controller.Ok(Response),
-                HttpStatusCode.NotFound => controller.NotFound(Response),
-                HttpStatusCode.BadRequest => controller.NotFound(Response),
-                _ => controller.Conflict()
+                HttpStatusCode.Accepted => CreateAcceptedActionResult(),
+                HttpStatusCode.Created => CreateCreatedActionResult(),
+                HttpStatusCode.OK => actionResultFactory.Ok(Response),
+                HttpStatusCode.NotFound => actionResultFactory.NotFound(Response),
+                HttpStatusCode.BadRequest => actionResultFactory.BadRequest(Response),
+                _ => throw new Exception()
             };
         }
     }
