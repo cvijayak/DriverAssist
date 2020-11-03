@@ -26,7 +26,7 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> PostAsync(PostDriverRequest request, CancellationToken cancellationToken)
         {
             var result = await _driverService.PostAsync(request, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpPut]
@@ -34,7 +34,7 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> PutAsync(Guid id, PutDriverRequest request, CancellationToken cancellationToken)
         {
             var result = await _driverService.PutAsync(id, request, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpPatch]
@@ -49,7 +49,7 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var result = await _driverService.GetAsync(id, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpDelete]
@@ -57,14 +57,14 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var result = await _driverService.DeleteAsync(id, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpGet]
         public async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
             var result = await _driverService.ListAsync(cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
     }
 }

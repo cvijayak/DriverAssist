@@ -26,7 +26,7 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> PostAsync([FromBody]PostVehicleRequest request, CancellationToken cancellationToken)
         {
             var result = await _vehicleService.PostAsync(request, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
     
         [HttpPut]
@@ -34,7 +34,7 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> PutAsync(Guid id, [FromBody] PutVehicleRequest request, CancellationToken cancellationToken)
         {
             var result = await _vehicleService.PutAsync(id, request, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpPatch]
@@ -49,7 +49,7 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> GetAsync(Guid id, CancellationToken cancellationToken)
         {
             var result = await _vehicleService.GetAsync(id, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpDelete]
@@ -57,14 +57,14 @@ namespace DriverAssist.WebAPI.App.Controllers
         public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             var result = await _vehicleService.DeleteAsync(id, cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
 
         [HttpGet]
         public async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
         {
             var result = await _vehicleService.ListAsync(cancellationToken);
-            return result.GetActionResult();
+            return result.GetActionResult(this);
         }
     }
 }
