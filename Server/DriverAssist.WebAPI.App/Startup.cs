@@ -1,4 +1,6 @@
 using DriverAssist.Domain.MongoDB.Extensions;
+using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,12 @@ namespace DriverAssist.WebAPI.App
             var mongoDBSettings = Configuration.GetSection("MongoDBSettings");
 
             services.AddMongoDbProvider(options => options.Bind(mongoDBSettings));
+
+            services
+                .AddScoped<IDriverSevice, DriverService>()
+                .AddScoped<IVehicleService, VehicleService>()
+                .AddScoped<INotificationService, NotificationService>();
+
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
 

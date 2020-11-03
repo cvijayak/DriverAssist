@@ -14,5 +14,6 @@
     <ProjectReference Include="..\DriverAssist.Domain.MongoDB\DriverAssist.Domain.MongoDB.csproj" />
     <ProjectReference Include="..\DriverAssist.WebAPI.Common\DriverAssist.WebAPI.Common.csproj" />
     <ProjectReference Include="..\DriverAssist.WebAPI.Configs\DriverAssist.WebAPI.Configs.csproj" />
+    <ProjectReference Include="..\DriverAssist.WebAPI.Services\DriverAssist.WebAPI.Services.csproj" />
   </ItemGroup>
 </Project>
