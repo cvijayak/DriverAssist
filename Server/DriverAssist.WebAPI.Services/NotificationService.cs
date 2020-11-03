@@ -1,4 +1,5 @@
-﻿using DriverAssist.WebAPI.Common;
+﻿using DriverAssist.Domain.Common;
+using DriverAssist.WebAPI.Common;
 using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
@@ -15,20 +16,33 @@ namespace DriverAssist.WebAPI.Services
     public class NotificationService : INotificationService
     {
         private readonly NotificationSettings _notificationSettings;
+        private readonly IDriverRepository _driverRepository;
         private readonly IServiceResultFactory _serviceResultFactory;
 
-        public NotificationService(IOptions<NotificationSettings> settings, IServiceResultFactory serviceResultFactory)
+        public NotificationService(IOptions<NotificationSettings> settings, 
+            IDriverRepository driverRepository, 
+            IServiceResultFactory serviceResultFactory)
         {
             _notificationSettings = settings.Value;
+            _driverRepository = driverRepository;
             _serviceResultFactory = serviceResultFactory;
         }
 
         public async Task<ServiceResult> NotifyAsync(PostNotificationRequest request, CancellationToken cancellationToken)
         {
+            var driver = await _driverRepository.GetAsync(request.DriverId,cancellationToken);
+            if (driver == null)
+            {
+                return _serviceResultFactory.BadRequest(new BadRequestErrorResponse
+                {
+                    Message = "Invalid DriverId or DriverId is not found"
+                });
+            }
+
             return request.TypeOfNotification switch
             {
-                NotificationTypeDto.SMS => await NotifyThroughSms(request.Message, "", cancellationToken),
-                NotificationTypeDto.WhatsApp => await NotifyThroughWhatsApp(request.Message, "", cancellationToken),
+                NotificationTypeDto.SMS => await NotifyThroughSms(request.Message, driver.EmergencyContactNumber, cancellationToken),
+                NotificationTypeDto.WhatsApp => await NotifyThroughWhatsApp(request.Message, driver.EmergencyContactNumber, cancellationToken),
                 _ => _serviceResultFactory.BadRequest(new BadRequestErrorResponse
                 {
                     Message = "Unknown Notification Type"
