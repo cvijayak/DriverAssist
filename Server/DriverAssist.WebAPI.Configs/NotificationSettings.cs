@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DriverAssist.WebAPI.Configs
+﻿namespace DriverAssist.WebAPI.Configs
 {
     public class NotificationSettings
     {

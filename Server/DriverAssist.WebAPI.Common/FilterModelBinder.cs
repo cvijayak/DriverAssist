@@ -9,10 +9,21 @@ namespace DriverAssist.WebAPI.Common
     {
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
+            if (bindingContext == null)
+            {
+                throw new ArgumentNullException(nameof(bindingContext));
+            }
+
             var key = bindingContext.ModelName;
             var val = bindingContext.ValueProvider.GetValue(key);
+            if (val == ValueProviderResult.None)
+            {
+                return Task.CompletedTask;
+            }
+
+            bindingContext.ModelState.SetModelValue(key, val);
+
             var s = val.FirstValue;
-            bindingContext.Model = null;
 
             if (!string.IsNullOrEmpty(s))
             {
@@ -26,12 +37,16 @@ namespace DriverAssist.WebAPI.Common
                     }
                     else
                     {
-                        bindingContext.Model = filterExpression;
+                        bindingContext.Result = ModelBindingResult.Success(filterExpression);
                     }
                 }
+            } 
+            else
+            {
+                bindingContext.Result = ModelBindingResult.Failed();
             }
 
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
     }
 }

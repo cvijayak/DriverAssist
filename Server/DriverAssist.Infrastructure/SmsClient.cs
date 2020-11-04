@@ -1,5 +1,6 @@
 ﻿using DriverAssist.Infrastructure.Common;
 using DriverAssist.WebAPI.Configs;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
@@ -12,9 +13,9 @@ namespace DriverAssist.Infrastructure
     {
         private NotificationSettings _notificationSettings;
 
-        public SmsClient(NotificationSettings settings)
+        public SmsClient(IOptions<NotificationSettings> settings)
         {
-            _notificationSettings = settings;
+            _notificationSettings = settings.Value;
         }
 
         public async Task<bool> SendAsync(SmsMessage message, CancellationToken cancellationToken)

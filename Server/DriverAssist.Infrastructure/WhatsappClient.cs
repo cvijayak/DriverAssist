@@ -1,5 +1,6 @@
 ﻿using DriverAssist.Infrastructure.Common;
 using DriverAssist.WebAPI.Configs;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
@@ -15,9 +16,9 @@ namespace DriverAssist.Infrastructure
     {
         private NotificationSettings _notificationSettings;
 
-        public WhatsappClient(NotificationSettings settings)
+        public WhatsappClient(IOptions<NotificationSettings> settings)
         {
-            _notificationSettings = settings;
+            _notificationSettings = settings.Value;
         }
 
         public async Task<bool> SendAsync(WhatsappMessage message, CancellationToken cancellationToken)
