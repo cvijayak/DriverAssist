@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Common.Filters;
 using DriverAssist.WebAPI.Common.Requests;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace DriverAssist.WebAPI.App.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class DriversController : ControllerBase
+    public class DriversController : ApiControllerBase
     {
         private ILogger<DriversController> _logger;
         private IDriverSevice _driverService;
@@ -70,9 +71,10 @@ namespace DriverAssist.WebAPI.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListAsync(CancellationToken cancellationToken)
+        public async Task<IActionResult> ListAsync([ModelBinder(typeof(FilterModelBinder))] DriverFilter filter, 
+            CancellationToken cancellationToken)
         {
-            var result = await _driverService.ListAsync(cancellationToken);
+            var result = await _driverService.ListAsync(filter, cancellationToken);
             return result.GetActionResult(ActionResultFactory);
         }
     }

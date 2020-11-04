@@ -1,7 +1,7 @@
 ﻿using DriverAssist.WebAPI.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DriverAssist.WebAPI.App.Controllers
+namespace DriverAssist.WebAPI.App
 {
     internal class ActionResultFactory : IActionResultFactory
     {

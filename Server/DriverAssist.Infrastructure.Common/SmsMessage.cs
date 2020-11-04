@@ -1,4 +1,4 @@
-﻿namespace DriverAssist.Infrastructure
+﻿namespace DriverAssist.Infrastructure.Common
 {
     public class SmsMessage
     {

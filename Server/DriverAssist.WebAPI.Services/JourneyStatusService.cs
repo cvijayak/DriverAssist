@@ -1,10 +1,10 @@
 ﻿using DriverAssist.Domain.Common;
 using DriverAssist.Domain.Common.Entities;
+using DriverAssist.Infrastructure.Common;
 using DriverAssist.WebAPI.Common;
 using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
-using DriverAssist.WebAPI.Configs;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,16 +16,22 @@ namespace DriverAssist.WebAPI.Services
         private readonly IDriverRepository _driverRepository;
         private readonly IVehicleRepository _vehicleRepository;
         private readonly IJourneyStatusRepository _journeyStatusRepository;
+        private readonly ISmsClient _smsClient;
+        private readonly IWhatsappClient _whatsappClient;
         private readonly IServiceResultFactory _serviceResultFactory;
 
         public JourneyStatusService(IDriverRepository driverRepository,
             IVehicleRepository vehicleRepository,
             IJourneyStatusRepository journeyStatusRepository,
+            ISmsClient smsClient,
+            IWhatsappClient whatsappClient,
             IServiceResultFactory serviceResultFactory)
         {
             _driverRepository = driverRepository;
             _vehicleRepository = vehicleRepository;
             _journeyStatusRepository = journeyStatusRepository;
+            _smsClient = smsClient;
+            _whatsappClient = whatsappClient;
             _serviceResultFactory = serviceResultFactory;
         }
 
@@ -122,47 +128,5 @@ namespace DriverAssist.WebAPI.Services
 
             return await _journeyStatusRepository.GetAsync(journeyStatusId, cancellationToken);
         }
-
-        //private async Task<ServiceResult> NotifyThroughSms(string message, string ownerNumber, CancellationToken cancellationToken)
-        //{
-        //    using (var client = new HttpClient())
-        //    {
-        //        using (var request = new HttpRequestMessage(HttpMethod.Get, _notificationSettings.Sms.Url))
-        //        {
-        //            using (var response = await client.SendAsync(request, cancellationToken))
-        //            {
-        //                if (!response.IsSuccessStatusCode)
-        //                {
-        //                    // Throw exception
-        //                    throw new Exception();
-        //                }
-
-        //                var smsResponse = await response.Content.ReadAsStringAsync();
-        //                var jObj = JObject.Parse(smsResponse);
-        //                var status = (int)jObj["Status"];
-        //                if (status == 0)
-        //                {
-        //                    return _serviceResultFactory.Accepted("", new NotificationResponse
-        //                    {
-        //                    });
-        //                } 
-        //                else
-        //                {
-        //                    return _serviceResultFactory.BadRequest(new BadRequestErrorResponse
-        //                    {
-        //                        Message = ""
-        //                    });
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private async Task<ServiceResult> NotifyThroughWhatsApp(string message, string ownerNumber, CancellationToken cancellationToken)
-        //{
-        //    // TODO : Write Actual logic
-
-        //    throw new NotImplementedException();
-        //}
     }
 }

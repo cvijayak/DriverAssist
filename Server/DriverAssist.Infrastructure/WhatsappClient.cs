@@ -1,4 +1,5 @@
-﻿using DriverAssist.WebAPI.Configs;
+﻿using DriverAssist.Infrastructure.Common;
+using DriverAssist.WebAPI.Configs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
@@ -10,7 +11,7 @@ using Twilio.Types;
 
 namespace DriverAssist.Infrastructure
 {
-    public class WhatsappClient
+    public class WhatsappClient : IWhatsappClient
     {
         private NotificationSettings _notificationSettings;
 

@@ -11,19 +11,19 @@ namespace DriverAssist.WebAPI.App.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class JourneyStatusController : ControllerBase
+    public class JourneyStatusController : ApiControllerBase
     {
         private ILogger<JourneyStatusController> _logger;
         private readonly IHubContext<VehicleNotificationHub> _vehicleNotificationHubContext;
-        private IJourneyStatusService _notificationService;
+        private IJourneyStatusService _journeyStatusService;
 
         public JourneyStatusController(ILogger<JourneyStatusController> logger, 
             IHubContext<VehicleNotificationHub> vehicleNotificationHubContext, 
-            IJourneyStatusService notificationService)
+            IJourneyStatusService journeyStatusService)
         {
             _logger = logger;
             _vehicleNotificationHubContext = vehicleNotificationHubContext;
-            _notificationService = notificationService;
+            _journeyStatusService = journeyStatusService;
         }
 
         private IActionResultFactory ActionResultFactory
@@ -35,14 +35,14 @@ namespace DriverAssist.WebAPI.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(PostNotificationRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> PostAsync([FromBody]PostNotificationRequest request, CancellationToken cancellationToken)
         {
             async Task SendMessage(string topic, NotificationResponse reponse)
             {
                 await _vehicleNotificationHubContext.Clients.Group(topic).SendCoreAsync("journeyStatus", new[] { reponse }, cancellationToken);
             }
 
-            var result = await _notificationService.NotifyAsync(request, SendMessage, cancellationToken);
+            var result = await _journeyStatusService.NotifyAsync(request, SendMessage, cancellationToken);
             return result.GetActionResult(ActionResultFactory);
         }
     }

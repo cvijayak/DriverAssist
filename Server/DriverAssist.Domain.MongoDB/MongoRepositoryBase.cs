@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -50,10 +51,11 @@ namespace DriverAssist.Domain.MongoDB
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<(List<T> Items, long Total)> GetAsync(CancellationToken cancellationToken)
+        public async Task<(List<T> Items, long Total)> GetAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
         {
             var items = await Collection
                 .AsQueryable()
+                .Where(filter)
                 .ToListAsync(cancellationToken);
 
             return (Items : items, items.Count);

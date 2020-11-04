@@ -1,4 +1,5 @@
-﻿using DriverAssist.WebAPI.Common.Requests;
+﻿using DriverAssist.WebAPI.Common.Filters;
+using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Results;
 using System;
 using System.Threading;
@@ -10,7 +11,7 @@ namespace DriverAssist.WebAPI.Common
     {
         Task<ServiceResult> PostAsync(PostVehicleRequest request, CancellationToken cancellationToken);
         Task<ServiceResult> PutAsync(Guid id, PutVehicleRequest request, CancellationToken cancellationToken);
-        Task<ServiceResult> ListAsync(CancellationToken cancellationToken);
+        Task<ServiceResult> ListAsync(VehicleFilter filter, CancellationToken cancellationToken);
         Task<ServiceResult> GetAsync(Guid id, CancellationToken cancellationToken);
         Task<ServiceResult> DeleteAsync(Guid id, CancellationToken cancellationToken);
     }

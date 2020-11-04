@@ -1,6 +1,7 @@
 ﻿using DriverAssist.Domain.Common;
 using DriverAssist.Domain.Common.Entities;
 using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Common.Filters;
 using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
@@ -108,9 +109,11 @@ namespace DriverAssist.WebAPI.Services
             return _serviceResultFactory.Ok(ConvertTo(driver));
         }
 
-        public async Task<ServiceResult> ListAsync(CancellationToken cancellationToken)
+        public async Task<ServiceResult> ListAsync(DriverFilter filter, CancellationToken cancellationToken)
         {
-            var drivers = await _driverRepository.GetAsync(cancellationToken);
+            var expr = new DriverFilterExpressionBuilder().Build(filter);
+
+            var drivers = await _driverRepository.GetAsync(expr, cancellationToken);
             return _serviceResultFactory.Ok(new DriversResponse
             {
                 Items = (from driver in drivers.Items

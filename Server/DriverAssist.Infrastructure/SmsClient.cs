@@ -1,4 +1,5 @@
-﻿using DriverAssist.WebAPI.Configs;
+﻿using DriverAssist.Infrastructure.Common;
+using DriverAssist.WebAPI.Configs;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DriverAssist.Infrastructure
 {
-    public class SmsClient
+    public class SmsClient : ISmsClient
     {
         private NotificationSettings _notificationSettings;
 

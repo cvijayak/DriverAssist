@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DriverAssist.Domain.Common\DriverAssist.Domain.Common.csproj" />
+    <ProjectReference Include="..\DriverAssist.Infrastructure.Common\DriverAssist.Infrastructure.Common.csproj" />
     <ProjectReference Include="..\DriverAssist.WebAPI.Common\DriverAssist.WebAPI.Common.csproj" />
     <ProjectReference Include="..\DriverAssist.WebAPI.Configs\DriverAssist.WebAPI.Configs.csproj" />
   </ItemGroup>

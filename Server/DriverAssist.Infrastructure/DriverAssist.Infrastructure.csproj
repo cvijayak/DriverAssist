@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DriverAssist.Infrastructure.Common\DriverAssist.Infrastructure.Common.csproj" />
     <ProjectReference Include="..\DriverAssist.WebAPI.Configs\DriverAssist.WebAPI.Configs.csproj" />
   </ItemGroup>
 

@@ -1,4 +1,6 @@
 using DriverAssist.Domain.MongoDB.Extensions;
+using DriverAssist.Infrastructure;
+using DriverAssist.Infrastructure.Common;
 using DriverAssist.WebAPI.Common;
 using DriverAssist.WebAPI.Common.Results;
 using DriverAssist.WebAPI.Configs;
@@ -34,7 +36,9 @@ namespace DriverAssist.WebAPI.App
             services
                 .AddScoped<IDriverSevice, DriverService>()
                 .AddScoped<IVehicleService, VehicleService>()
-                .AddScoped<IJourneyStatusService, JourneyStatusService>();
+                .AddScoped<IJourneyStatusService, JourneyStatusService>()
+                .AddScoped<ISmsClient, SmsClient>()
+                .AddScoped<IWhatsappClient, WhatsappClient>();
 
             services.AddCors(options =>
             {
