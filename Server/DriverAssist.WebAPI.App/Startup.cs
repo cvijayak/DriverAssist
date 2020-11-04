@@ -38,10 +38,10 @@ namespace DriverAssist.WebAPI.App
 
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder
-                       .AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader());
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("https://localhost:6001")
+                                                                  .AllowAnyMethod()
+                                                                  .AllowAnyHeader()
+                                                                  .AllowCredentials());
             });
             
             services.AddSignalR();
@@ -82,7 +82,7 @@ namespace DriverAssist.WebAPI.App
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChartHub>("/chart");
+                endpoints.MapHub<VehicleNotificationHub>("/hubs/vehicle-notification");
             });
         }
     }
