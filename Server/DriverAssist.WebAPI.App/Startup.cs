@@ -34,7 +34,7 @@ namespace DriverAssist.WebAPI.App
             services
                 .AddScoped<IDriverSevice, DriverService>()
                 .AddScoped<IVehicleService, VehicleService>()
-                .AddScoped<INotificationService, NotificationService>();
+                .AddScoped<IJourneyStatusService, JourneyStatusService>();
 
             services.AddCors(options =>
             {

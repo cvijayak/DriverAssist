@@ -14,12 +14,13 @@ namespace DriverAssist.Domain.MongoDB
             var client = new MongoClient(settings.Value.ConnectionString);
             _mongoDatabase = client.GetDatabase(settings.Value.DatabaseName);
 
-            Drivers = _mongoDatabase.GetCollection<Driver>(nameof(Driver));
-            Vehicles = _mongoDatabase.GetCollection<Vehicle>(nameof(Vehicle));
+            Drivers = _mongoDatabase.GetCollection<Driver>(nameof(Drivers));
+            Vehicles = _mongoDatabase.GetCollection<Vehicle>(nameof(Vehicles));
+            JourneyStatuses = _mongoDatabase.GetCollection<JourneyStatus>(nameof(JourneyStatuses));
         }
 
         public IMongoCollection<Driver> Drivers { get; }
-
         public IMongoCollection<Vehicle> Vehicles { get; }
+        public IMongoCollection<JourneyStatus> JourneyStatuses { get; }
     }
 }

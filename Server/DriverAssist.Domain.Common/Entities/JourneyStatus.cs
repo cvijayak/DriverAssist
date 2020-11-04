@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace DriverAssist.WebAPI.Common.Responses
+namespace DriverAssist.Domain.Common.Entities
 {
-    public class NotificationResponse : IResponse
+    public class JourneyStatus : IEntity<Guid>
     {
+        public Guid Id { get; set; }
         public Guid DriverId { get; set; }
         public string DriverName { get; set; }
         public string DriverContactNumber { get; set; }
@@ -13,6 +14,6 @@ namespace DriverAssist.WebAPI.Common.Responses
         public double AvgSpeed { get; set; }
         public double MaxSpeed { get; set; }
         public double MinSpeed { get; set; }
-        public SpeedUnitTypeDto TypeOfSpeedUnit { get; set; }
+        public SpeedUnitType TypeOfSpeedUnit { get; set; }
     }
 }

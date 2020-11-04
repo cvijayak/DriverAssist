@@ -1,5 +1,6 @@
 ﻿using DriverAssist.WebAPI.Common;
 using DriverAssist.WebAPI.Common.Requests;
+using DriverAssist.WebAPI.Common.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
@@ -10,15 +11,15 @@ namespace DriverAssist.WebAPI.App.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class NotificationController : ControllerBase
+    public class JourneyStatusController : ControllerBase
     {
-        private ILogger<NotificationController> _logger;
+        private ILogger<JourneyStatusController> _logger;
         private readonly IHubContext<VehicleNotificationHub> _vehicleNotificationHubContext;
-        private INotificationService _notificationService;
+        private IJourneyStatusService _notificationService;
 
-        public NotificationController(ILogger<NotificationController> logger, 
+        public JourneyStatusController(ILogger<JourneyStatusController> logger, 
             IHubContext<VehicleNotificationHub> vehicleNotificationHubContext, 
-            INotificationService notificationService)
+            IJourneyStatusService notificationService)
         {
             _logger = logger;
             _vehicleNotificationHubContext = vehicleNotificationHubContext;
@@ -36,9 +37,9 @@ namespace DriverAssist.WebAPI.App.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync(PostNotificationRequest request, CancellationToken cancellationToken)
         {
-            async Task SendMessage(string topic)
+            async Task SendMessage(string topic, NotificationResponse reponse)
             {
-                await _vehicleNotificationHubContext.Clients.Group(topic).SendCoreAsync("vehicleNotification", new[] { request.Message });
+                await _vehicleNotificationHubContext.Clients.Group(topic).SendCoreAsync("journeyStatus", new[] { reponse }, cancellationToken);
             }
 
             var result = await _notificationService.NotifyAsync(request, SendMessage, cancellationToken);

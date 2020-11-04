@@ -7,5 +7,6 @@ namespace DriverAssist.Domain.MongoDB
     {
         IMongoCollection<Driver> Drivers { get; }
         IMongoCollection<Vehicle> Vehicles { get; }
+        IMongoCollection<JourneyStatus> JourneyStatuses { get; }
     }
 }

@@ -22,7 +22,8 @@ namespace DriverAssist.Domain.MongoDB.Extensions
             return services
                 .AddSingleton<IMongoDbStorage, MongoDbStorage>()
                 .AddScoped<IDriverRepository, DriverRepository>()
-                .AddScoped<IVehicleRepository, VehicleRepository>();
+                .AddScoped<IVehicleRepository, VehicleRepository>()
+                .AddScoped<IJourneyStatusRepository, JourneyStatusRepository>();
         }
 
         private static void RegisterEnumAsStringConvention()
