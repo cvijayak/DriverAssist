@@ -36,8 +36,20 @@ namespace DriverAssist.WebAPI.App
                 .AddScoped<IVehicleService, VehicleService>()
                 .AddScoped<INotificationService, NotificationService>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                       .AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader());
+            });
+            
+            services.AddSignalR();
+
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
+            
+            
 
             services.AddSwaggerGen();
         }
@@ -63,11 +75,14 @@ namespace DriverAssist.WebAPI.App
 
             app.UseRouting();
 
+            app.UseCors("CorsPolicy");
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChartHub>("/chart");
             });
         }
     }
