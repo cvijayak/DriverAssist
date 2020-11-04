@@ -19,7 +19,7 @@ export class VehicleNotificationService {
   }
 
   public addListener = () => {
-    this.hubConnection.on('vehicleNotification', (data) => {
+    this.hubConnection.on('journeyStatus', (data) => {
       console.log(data);
     });
 
