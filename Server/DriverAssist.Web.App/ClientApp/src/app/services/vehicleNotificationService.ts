@@ -9,7 +9,7 @@ export class VehicleNotificationService {
 
   public startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/chart-hub')
+      .withUrl('https://localhost:5001/hubs/vehicle-notification')
       .build();
 
     this.hubConnection
@@ -22,5 +22,7 @@ export class VehicleNotificationService {
     this.hubConnection.on('vehicleNotification', (data) => {
       console.log(data);
     });
+
+    this.hubConnection.send('subscribe', "$$$$$VehicleId$$$");
   }
 }
