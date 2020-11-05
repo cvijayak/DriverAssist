@@ -1,5 +1,4 @@
 ﻿using DriverAssist.Common;
-using DriverAssist.Domain.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,63 +6,6 @@ using System.Linq.Expressions;
 
 namespace DriverAssist.WebAPI.Common.Filters
 {
-    public abstract class FieldValueTransformerBase<T> where T : struct
-    {
-        private static readonly IReadOnlyCollection<T> IdFields = EnumX.FilterByAttribute<T, IdAttribute>().ToArray();
-
-        public string Transform(string fieldName, string fieldValue)
-        {
-            try
-            {
-                var fieldNameEnum = fieldName.ToEnum<T>();
-                //if (IdFields.Any(s => fieldNameEnum.Equals(s)))
-                //{
-                //    var internalId = fieldValue.SafeConvertInternalId();
-                //    if (internalId == -1 || internalId.ToVisibleId() != fieldValue)
-                //    {
-                //        internalId = -1;
-                //    }
-
-                //    return internalId.ToString();
-                //}
-
-                return fieldValue;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-        }
-    }
-
-    public class DriverFilterExpressionBuilder : FilterExpressionBuilderBase<DriverFilter, Driver>
-    {
-        private class FieldValueTransformer : FieldValueTransformerBase<DriverFilter.Fields>, IFieldValueTransformer
-        {
-        }
-
-        private static readonly IFieldValueTransformer ValueTransformer = new FieldValueTransformer();
-
-        public DriverFilterExpressionBuilder()
-            : base(null, ValueTransformer)
-        {
-        }
-    }
-
-    public class VehicleFilterExpressionBuilder : FilterExpressionBuilderBase<VehicleFilter, Vehicle>
-    {
-        private class FieldValueTransformer : FieldValueTransformerBase<VehicleFilter.Fields>, IFieldValueTransformer
-        {
-        }
-
-        private static readonly IFieldValueTransformer ValueTransformer = new FieldValueTransformer();
-
-        public VehicleFilterExpressionBuilder()
-            : base(null, ValueTransformer)
-        {
-        }
-    }
-
     public abstract class FilterExpressionBuilderBase<T, K> where T : FilterBase
     {
         private readonly IFieldNameTransformer _nameTransformer;

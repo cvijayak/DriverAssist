@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace DriverAssist.Domain.MongoDB
 {
-
     internal abstract class MongoRepositoryBase<T> : IRepository<T> where T : IEntity<Guid>
     {
         protected readonly IMongoDbStorage _dbStorage;
@@ -53,10 +52,10 @@ namespace DriverAssist.Domain.MongoDB
 
         public async Task<(List<T> Items, long Total)> GetAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
         {
-            var items = await Collection
-                .AsQueryable()
-                .Where(filter)
-                .ToListAsync(cancellationToken);
+            var asyncCursor = await Collection
+                .FindAsync(filter, cancellationToken : cancellationToken);
+
+            var items = await asyncCursor.ToListAsync();
 
             return (Items : items, items.Count);
         }

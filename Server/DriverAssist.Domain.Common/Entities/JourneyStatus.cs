@@ -10,7 +10,8 @@ namespace DriverAssist.Domain.Common.Entities
         public string DriverContactNumber { get; set; }
         public Guid VehicleId { get; set; }
         public string RegistrationNumber { get; set; }
-        public string CurrentLocation { get; set; }
+        public double[] Coordinates { get; set; }
+        public string[] Hazards { get; set; }
         public double AvgSpeed { get; set; }
         public double MaxSpeed { get; set; }
         public double MinSpeed { get; set; }

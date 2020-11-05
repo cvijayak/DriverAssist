@@ -4,21 +4,25 @@ using System.Linq;
 
 namespace DriverAssist.WebAPI.Common.Filters
 {
-    public class VehicleFilter : FilterBase
+    public class JourneyStatusFilter : FilterBase
     {
         public enum Fields
         {
             [Filter] [SortBy] Id,
-            [Filter] [SortBy] Make,
-            [Filter] [SortBy] Model,
+            [Filter] [SortBy] DriverId,
+            [Filter] [SortBy] DriverName,
+            [Filter] [SortBy] DriverContactNumber,
+            [Filter] [SortBy] VehicleId,
             [Filter] [SortBy] RegistrationNumber,
-            [Filter] [SortBy] EngineNumber,
-            [Filter] [SortBy] TypeOfFuel
-        }
+            [Filter] [SortBy] AvgSpeed,
+            [Filter] [SortBy] MaxSpeed,
+            [Filter] [SortBy] MinSpeed,
+            [Filter] [SortBy] TypeOfSpeedUnit
+    }
 
         private static readonly IReadOnlyCollection<string> FieldNames = EnumX.FilterByAttribute<Fields, FilterAttribute>().Select(f => f.ToString()).ToArray();
 
-        public VehicleFilter()
+        public JourneyStatusFilter()
             : base(FieldNames)
         {
         }

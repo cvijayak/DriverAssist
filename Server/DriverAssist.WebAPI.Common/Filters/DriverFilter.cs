@@ -8,7 +8,7 @@ namespace DriverAssist.WebAPI.Common.Filters
     {
         public enum Fields
         {
-            [Id] [Filter] [SortBy] Id,
+            [Filter] [SortBy] Id,
             [Filter] [SortBy] FirstName,
             [Filter] [SortBy] LastName,
             [Filter] [SortBy] MiddleName,

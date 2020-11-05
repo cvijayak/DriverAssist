@@ -1,4 +1,5 @@
-﻿using DriverAssist.WebAPI.Common.Requests;
+﻿using DriverAssist.WebAPI.Common.Filters;
+using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
 using System;
@@ -9,6 +10,7 @@ namespace DriverAssist.WebAPI.Common
 {
     public interface IJourneyStatusService
     {
-        Task<ServiceResult> NotifyAsync(PostNotificationRequest request, Func<string, NotificationResponse, Task> publishMessage, CancellationToken cancellationToken);
+        Task<ServiceResult> PostAsync(PostJourneyStatusRequest request, Func<string, JourneyStatusResponse, Task> publishMessage, CancellationToken cancellationToken);
+        Task<ServiceResult> ListAsync(JourneyStatusFilter filter, CancellationToken cancellationToken);
     }
 }

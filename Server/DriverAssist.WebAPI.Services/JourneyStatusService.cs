@@ -2,10 +2,12 @@
 using DriverAssist.Domain.Common.Entities;
 using DriverAssist.Infrastructure.Common;
 using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Common.Filters;
 using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,7 +49,25 @@ namespace DriverAssist.WebAPI.Services
             _ => throw new InvalidCastException(),
         };
 
-        public async Task<ServiceResult> NotifyAsync(PostNotificationRequest request, Func<string, NotificationResponse, Task> sendMessage, CancellationToken cancellationToken)
+        private JourneyStatusResponse ConvertTo(JourneyStatus journeyStatus)
+        {
+            return new JourneyStatusResponse
+            {
+                DriverId = journeyStatus.DriverId,
+                VehicleId = journeyStatus.VehicleId,
+                DriverName = journeyStatus.DriverName,
+                DriverContactNumber = journeyStatus.DriverContactNumber,
+                RegistrationNumber = journeyStatus.RegistrationNumber,
+                TypeOfSpeedUnit = ConvertTo(journeyStatus.TypeOfSpeedUnit),
+                Coordinates = journeyStatus.Coordinates,
+                Hazards = journeyStatus.Hazards,
+                AvgSpeed = journeyStatus.AvgSpeed,
+                MaxSpeed = journeyStatus.MaxSpeed,
+                MinSpeed = journeyStatus.MinSpeed
+            };
+        }
+
+        public async Task<ServiceResult> PostAsync(PostJourneyStatusRequest request, Func<string, JourneyStatusResponse, Task> sendMessage, CancellationToken cancellationToken)
         {
             var driver = await _driverRepository.GetAsync(request.DriverId, cancellationToken);
             if (driver == null)
@@ -68,27 +88,26 @@ namespace DriverAssist.WebAPI.Services
             }
 
             var journeyStatus = await AddJourneyStatus(request, driver, vehicle, cancellationToken);
-
-            var response = new NotificationResponse
-            {
-                DriverId = journeyStatus.Id,
-                VehicleId = journeyStatus.Id,
-                DriverName = journeyStatus.DriverName,
-                DriverContactNumber = journeyStatus.DriverContactNumber,
-                RegistrationNumber = journeyStatus.RegistrationNumber,
-                TypeOfSpeedUnit = ConvertTo(journeyStatus.TypeOfSpeedUnit),
-                CurrentLocation = journeyStatus.CurrentLocation,
-                AvgSpeed = journeyStatus.AvgSpeed,
-                MaxSpeed = journeyStatus.MaxSpeed,
-                MinSpeed = journeyStatus.MinSpeed
-            };
-
+            var response = ConvertTo(journeyStatus);
             await sendMessage(vehicle.RegistrationNumber, response);
 
             return _serviceResultFactory.Accepted("", response);
         }
 
-        private async Task<JourneyStatus> AddJourneyStatus(PostNotificationRequest request, Driver driver, Vehicle vehicle, CancellationToken cancellationToken)
+        public async Task<ServiceResult> ListAsync(JourneyStatusFilter filter, CancellationToken cancellationToken)
+        {
+            var expr = new JourneyStatusFilterExpressionBuilder().Build(filter);
+
+            var journeyStatuses = await _journeyStatusRepository.GetAsync(expr, cancellationToken);
+            return _serviceResultFactory.Ok(new JourneyStatusesResponse
+            {
+                Items = (from journeyStatus in journeyStatuses.Items
+                         select ConvertTo(journeyStatus)).ToArray(),
+                Total = journeyStatuses.Total
+            });
+        }
+
+        private async Task<JourneyStatus> AddJourneyStatus(PostJourneyStatusRequest request, Driver driver, Vehicle vehicle, CancellationToken cancellationToken)
         {
             var journeyStatus = await _journeyStatusRepository.GetByVehicleIdAsync(vehicle.Id, cancellationToken);
             var journeyStatusId = journeyStatus == null ? Guid.NewGuid() : journeyStatus.Id;
@@ -103,7 +122,8 @@ namespace DriverAssist.WebAPI.Services
                     DriverContactNumber = driver.ContactNumber1,
                     RegistrationNumber = vehicle.RegistrationNumber,
                     TypeOfSpeedUnit = ConvertTo(request.TypeOfSpeedUnit),
-                    CurrentLocation = request.CurrentLocation.ToString(),
+                    Coordinates = request.Coordinates,
+                    Hazards = request.Hazards,
                     AvgSpeed = request.CurrentSpeed,
                     MaxSpeed = request.CurrentSpeed,
                     MinSpeed = request.CurrentSpeed
@@ -119,7 +139,8 @@ namespace DriverAssist.WebAPI.Services
                     DriverContactNumber = driver.ContactNumber1,
                     RegistrationNumber = vehicle.RegistrationNumber,
                     TypeOfSpeedUnit = ConvertTo(request.TypeOfSpeedUnit),
-                    CurrentLocation = request.CurrentLocation.ToString(),
+                    Coordinates = request.Coordinates,
+                    Hazards = request.Hazards,
                     AvgSpeed = (request.CurrentSpeed + journeyStatus.AvgSpeed) / 2.0,
                     MaxSpeed = request.CurrentSpeed > journeyStatus.AvgSpeed ? request.CurrentSpeed : journeyStatus.AvgSpeed,
                     MinSpeed = request.CurrentSpeed < journeyStatus.AvgSpeed ? request.CurrentSpeed : journeyStatus.AvgSpeed,

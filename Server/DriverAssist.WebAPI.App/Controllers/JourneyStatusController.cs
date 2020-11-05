@@ -1,4 +1,5 @@
 ﻿using DriverAssist.WebAPI.Common;
+using DriverAssist.WebAPI.Common.Filters;
 using DriverAssist.WebAPI.Common.Requests;
 using DriverAssist.WebAPI.Common.Responses;
 using Microsoft.AspNetCore.Mvc;
@@ -35,15 +36,24 @@ namespace DriverAssist.WebAPI.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]PostNotificationRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> PostAsync([FromBody]PostJourneyStatusRequest request, CancellationToken cancellationToken)
         {
-            async Task SendMessage(string topic, NotificationResponse reponse)
+            async Task SendMessage(string topic, JourneyStatusResponse reponse)
             {
                 await _vehicleNotificationHubContext.Clients.Group(topic).SendCoreAsync("journeyStatus", new[] { reponse }, cancellationToken);
             }
 
-            var result = await _journeyStatusService.NotifyAsync(request, SendMessage, cancellationToken);
+            var result = await _journeyStatusService.PostAsync(request, SendMessage, cancellationToken);
             return result.GetActionResult(ActionResultFactory);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListAsync([ModelBinder(typeof(FilterModelBinder))]JourneyStatusFilter filter, 
+            CancellationToken cancellationToken)
+        {
+            var result = await _journeyStatusService.ListAsync(filter, cancellationToken);
+            return result.GetActionResult(ActionResultFactory);
+
         }
     }
 }
