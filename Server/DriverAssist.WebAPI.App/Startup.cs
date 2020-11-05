@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace DriverAssist.WebAPI.App
 {
@@ -52,7 +54,14 @@ namespace DriverAssist.WebAPI.App
             services.AddSignalR();
 
             services.AddControllers()
-                .AddNewtonsoftJson(options => options.UseMemberCasing());
+                .AddNewtonsoftJson(options =>
+                {
+                    options.UseCamelCasing(false);
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.AllowInputFormatterExceptionMessages = true;
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
 
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DriverAssist APIs", Version = "v1" });

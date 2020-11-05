@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <ProjectReference Include="..\..\Server\DriverAssist.WebAPI.Common\DriverAssist.WebAPI.Common.csproj" />
   </ItemGroup>
 
 </Project>

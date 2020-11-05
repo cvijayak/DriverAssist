@@ -12,13 +12,13 @@ namespace DriverAssist.WebAPI.App.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class JourneyStatusController : ApiControllerBase
+    public class JourneyStatusesController : ApiControllerBase
     {
-        private ILogger<JourneyStatusController> _logger;
+        private ILogger<JourneyStatusesController> _logger;
         private readonly IHubContext<VehicleNotificationHub> _vehicleNotificationHubContext;
         private IJourneyStatusService _journeyStatusService;
 
-        public JourneyStatusController(ILogger<JourneyStatusController> logger, 
+        public JourneyStatusesController(ILogger<JourneyStatusesController> logger, 
             IHubContext<VehicleNotificationHub> vehicleNotificationHubContext, 
             IJourneyStatusService journeyStatusService)
         {

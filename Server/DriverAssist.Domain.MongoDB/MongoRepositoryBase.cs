@@ -52,12 +52,18 @@ namespace DriverAssist.Domain.MongoDB
 
         public async Task<(List<T> Items, long Total)> GetAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken)
         {
+            if (filter == null)
+            {
+                var itemsWithoutFilter = await Collection.AsQueryable().ToListAsync(cancellationToken);
+                return (Items: itemsWithoutFilter, Total : itemsWithoutFilter.Count);
+            }
+
             var asyncCursor = await Collection
                 .FindAsync(filter, cancellationToken : cancellationToken);
 
             var items = await asyncCursor.ToListAsync();
 
-            return (Items : items, items.Count);
+            return (Items : items, Total : items.Count);
         }
     }
 }

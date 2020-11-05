@@ -23,7 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Infrastructure.Common", "Server\DriverAssist.Infrastructure.Common\DriverAssist.Infrastructure.Common.csproj", "{7D65F2BE-6B60-4811-B90B-3B0FB5C62F40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverAssist.Common", "Server\DriverAssist.Common\DriverAssist.Common.csproj", "{59E18201-732C-45BB-A90D-75D58028F0D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Common", "Server\DriverAssist.Common\DriverAssist.Common.csproj", "{59E18201-732C-45BB-A90D-75D58028F0D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{498F8E63-1E2D-421B-9FF9-31200198C468}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.ApiClients", "Server\DriverAssist.ApiClients\DriverAssist.ApiClients.csproj", "{5748FC87-36D0-47B4-942F-DD9F29AD2491}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,10 @@ Global
 		{59E18201-732C-45BB-A90D-75D58028F0D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59E18201-732C-45BB-A90D-75D58028F0D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59E18201-732C-45BB-A90D-75D58028F0D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +94,7 @@ Global
 		{EBBA85E2-264C-4AB2-85BC-2168AE598E67} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
 		{7D65F2BE-6B60-4811-B90B-3B0FB5C62F40} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
 		{59E18201-732C-45BB-A90D-75D58028F0D0} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
+		{5748FC87-36D0-47B4-942F-DD9F29AD2491} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9366AAF9-28E5-4DFB-9C43-C52980DD60C4}
