@@ -63,7 +63,8 @@ namespace DriverAssist.WebAPI.Services
                 Hazards = journeyStatus.Hazards,
                 AvgSpeed = journeyStatus.AvgSpeed,
                 MaxSpeed = journeyStatus.MaxSpeed,
-                MinSpeed = journeyStatus.MinSpeed
+                MinSpeed = journeyStatus.MinSpeed,
+                Percentage = journeyStatus.Percentage
             };
         }
 
@@ -111,6 +112,25 @@ namespace DriverAssist.WebAPI.Services
         {
             var journeyStatus = await _journeyStatusRepository.GetByVehicleIdAsync(vehicle.Id, cancellationToken);
             var journeyStatusId = journeyStatus == null ? Guid.NewGuid() : journeyStatus.Id;
+            bool messageSent = false;
+
+            var currentDateTime = DateTime.UtcNow;
+            var diff = (currentDateTime - (journeyStatus.LastSentMessageDateTime ?? currentDateTime));
+            if (request.Percentage > 50.0 && diff.TotalMinutes > 60)
+            {
+                messageSent = await _smsClient.SendAsync(new SmsMessage
+                {
+                    PhoneNumber = driver.EmergencyContactNumber,
+                    Text = ""
+                }, cancellationToken);
+
+                messageSent = await _whatsappClient.SendAsync(new WhatsappMessage
+                {
+                    PhoneNumber = driver.EmergencyContactNumber,
+                    Text = ""
+                }, cancellationToken);
+            }
+
             if (journeyStatus == null)
             {
                 await _journeyStatusRepository.AddAsync(new JourneyStatus
@@ -126,7 +146,9 @@ namespace DriverAssist.WebAPI.Services
                     Hazards = request.Hazards,
                     AvgSpeed = request.CurrentSpeed,
                     MaxSpeed = request.CurrentSpeed,
-                    MinSpeed = request.CurrentSpeed
+                    MinSpeed = request.CurrentSpeed,
+                    Percentage = request.Percentage,
+                    LastSentMessageDateTime = messageSent ? currentDateTime : (DateTime?)null
                 }, cancellationToken);
             }
             else
@@ -144,6 +166,8 @@ namespace DriverAssist.WebAPI.Services
                     AvgSpeed = (request.CurrentSpeed + journeyStatus.AvgSpeed) / 2.0,
                     MaxSpeed = request.CurrentSpeed > journeyStatus.MaxSpeed ? request.CurrentSpeed : journeyStatus.MaxSpeed,
                     MinSpeed = request.CurrentSpeed < journeyStatus.MinSpeed ? request.CurrentSpeed : journeyStatus.MinSpeed,
+                    Percentage = request.Percentage,
+                    LastSentMessageDateTime = messageSent ? currentDateTime : journeyStatus.LastSentMessageDateTime
                 }, cancellationToken);
             }
 

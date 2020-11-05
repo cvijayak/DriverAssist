@@ -16,5 +16,7 @@ namespace DriverAssist.Domain.Common.Entities
         public double MaxSpeed { get; set; }
         public double MinSpeed { get; set; }
         public SpeedUnitType TypeOfSpeedUnit { get; set; }
+        public DateTime? LastSentMessageDateTime { get; set; }
+        public double Percentage { get; set; }
     }
 }

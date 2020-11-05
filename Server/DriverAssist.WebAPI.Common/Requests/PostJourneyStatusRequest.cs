@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 
 namespace DriverAssist.WebAPI.Common.Requests
 {
@@ -11,5 +10,6 @@ namespace DriverAssist.WebAPI.Common.Requests
         public SpeedUnitTypeDto TypeOfSpeedUnit { get; set; }
         public double[] Coordinates { get; set; }
         public string[] Hazards { get; set; }
+        public double Percentage { get; set; }
     }
 }

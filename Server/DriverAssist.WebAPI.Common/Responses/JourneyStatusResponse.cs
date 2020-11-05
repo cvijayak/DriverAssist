@@ -15,5 +15,6 @@ namespace DriverAssist.WebAPI.Common.Responses
         public double MaxSpeed { get; set; }
         public double MinSpeed { get; set; }
         public SpeedUnitTypeDto TypeOfSpeedUnit { get; set; }
+        public double Percentage { get; set; }
     }
 }
