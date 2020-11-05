@@ -142,8 +142,8 @@ namespace DriverAssist.WebAPI.Services
                     Coordinates = request.Coordinates,
                     Hazards = request.Hazards,
                     AvgSpeed = (request.CurrentSpeed + journeyStatus.AvgSpeed) / 2.0,
-                    MaxSpeed = request.CurrentSpeed > journeyStatus.AvgSpeed ? request.CurrentSpeed : journeyStatus.AvgSpeed,
-                    MinSpeed = request.CurrentSpeed < journeyStatus.AvgSpeed ? request.CurrentSpeed : journeyStatus.AvgSpeed,
+                    MaxSpeed = request.CurrentSpeed > journeyStatus.MaxSpeed ? request.CurrentSpeed : journeyStatus.MaxSpeed,
+                    MinSpeed = request.CurrentSpeed < journeyStatus.MinSpeed ? request.CurrentSpeed : journeyStatus.MinSpeed,
                 }, cancellationToken);
             }
 

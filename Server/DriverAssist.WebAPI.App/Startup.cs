@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace DriverAssist.WebAPI.App
 {
@@ -52,10 +53,11 @@ namespace DriverAssist.WebAPI.App
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
-            
-            
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DriverAssist APIs", Version = "v1" });
+            });
+            services.AddSwaggerGenNewtonsoftSupport();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
