@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Threading;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 
 namespace DrowsyDoc
 {
-    class CameraCapture
+    public class CameraCapture
     {
-        static VideoCapture capture;
-        static Mat frame;
-        static Bitmap image;
-        private static Thread camera;
-        static bool isCameraRunning = true;
-
-        // Declare required methods
         public void CaptureCamera()
         {
             try
@@ -32,9 +24,13 @@ namespace DrowsyDoc
         //Capturing Images Using The Device's Camera
         private static void CaptureCameraCallback()
         {
-            capture = new VideoCapture(0);
+            Bitmap image;
+            bool isCameraRunning = true;
+
+            VideoCapture capture = new VideoCapture(0);
             capture.Open(0);
-            frame = new Mat();
+
+            Mat frame = new Mat();
 
             if (capture.IsOpened())
             {

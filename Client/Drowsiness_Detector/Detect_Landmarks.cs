@@ -1,9 +1,5 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using DlibDotNet;
-using DlibDotNet.Extensions;
+﻿using DlibDotNet;
+using System;
 using Dlib = DlibDotNet.Dlib;
 
 namespace DrowsyDoc

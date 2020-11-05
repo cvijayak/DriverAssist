@@ -6,14 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="bin\Debug\netcoreapp3.1\Notify\Alarm.wav" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="DlibDotNet" Version="19.20.0.20200725" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.4.0.20200725" />
     <PackageReference Include="PInvoke.Kernel32" Version="0.6.49" />
-    <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LocationDetector\LocationDetector\LocationDetector.csproj" />
+    <ProjectReference Include="..\..\Server\DriverAssist.ApiClients\DriverAssist.ApiClients.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="shape_predictor_68_face_landmarks.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

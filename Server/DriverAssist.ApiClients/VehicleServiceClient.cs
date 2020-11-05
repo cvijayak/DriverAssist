@@ -23,7 +23,7 @@ namespace DriverAssist.ApiClients
                 client.BaseAddress = _baseUri;
                 using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
                 {
-                    using (var response = await client.SendAsync(request, cancellationToken))
+                    using (var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false))
                     {
                         if (!response.IsSuccessStatusCode)
                         {
@@ -47,7 +47,7 @@ namespace DriverAssist.ApiClients
                 client.BaseAddress = _baseUri;
                 using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
                 {
-                    using (var response = await client.SendAsync(request, cancellationToken))
+                    using (var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false))
                     {
                         if (!response.IsSuccessStatusCode)
                         {
@@ -72,7 +72,7 @@ namespace DriverAssist.ApiClients
                 client.BaseAddress = _baseUri;
                 using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
                 {
-                    using (var response = await client.SendAsync(request, cancellationToken))
+                    using (var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false))
                     {
                         if (!response.IsSuccessStatusCode)
                         {
