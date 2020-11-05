@@ -70,6 +70,20 @@ namespace DriverAssist.WebAPI.Services
 
         public async Task<ServiceResult> PostAsync(PostDriverRequest request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.FirstName) ||
+                string.IsNullOrEmpty(request.LastName) ||
+                string.IsNullOrEmpty(request.IdentificationNumber) ||
+                string.IsNullOrEmpty(request.ContactNumber1) ||
+                string.IsNullOrEmpty(request.EmergencyContactNumber) ||
+                request.ContactNumber1 == request.EmergencyContactNumber ||
+                request.ContactNumber2 == request.EmergencyContactNumber)
+            {
+                return _serviceResultFactory.BadRequest(new BadRequestErrorResponse
+                {
+                    Message = "FirstName, LastName, IdentificationNumber, ContactNumber1, EmergencyContactNumber are mandatory"
+                });
+            }
+
             var driver = new Driver
             {
                 Id = Guid.NewGuid(),
@@ -91,6 +105,17 @@ namespace DriverAssist.WebAPI.Services
 
         public async Task<ServiceResult> PutAsync(Guid id, PutDriverRequest request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.ContactNumber1) ||
+                string.IsNullOrEmpty(request.EmergencyContactNumber) ||
+                request.ContactNumber1 == request.EmergencyContactNumber ||
+                request.ContactNumber2 == request.EmergencyContactNumber)
+            {
+                return _serviceResultFactory.BadRequest(new BadRequestErrorResponse
+                {
+                    Message = "ContactNumber1, EmergencyContactNumber are mandatory"
+                });
+            }
+
             var driver = await _driverRepository.GetAsync(id, cancellationToken);
             if (driver == null)
             {

@@ -118,7 +118,7 @@ namespace DriverAssist.WebAPI.Services
                     Id = journeyStatusId,
                     DriverId = driver.Id,
                     VehicleId = vehicle.Id,
-                    DriverName = $"{driver.FirstName} {driver.MiddleName} {driver.LastName}",
+                    DriverName = $"{driver.FirstName} {driver.MiddleName ?? string.Empty} {driver.LastName}",
                     DriverContactNumber = driver.ContactNumber1,
                     RegistrationNumber = vehicle.RegistrationNumber,
                     TypeOfSpeedUnit = ConvertTo(request.TypeOfSpeedUnit),
@@ -135,7 +135,7 @@ namespace DriverAssist.WebAPI.Services
                 {
                     DriverId = driver.Id,
                     VehicleId = vehicle.Id,
-                    DriverName = $"{driver.FirstName} {driver.MiddleName} {driver.LastName}",
+                    DriverName = $"{driver.FirstName} {driver.MiddleName ?? string.Empty} {driver.LastName}",
                     DriverContactNumber = driver.ContactNumber1,
                     RegistrationNumber = vehicle.RegistrationNumber,
                     TypeOfSpeedUnit = ConvertTo(request.TypeOfSpeedUnit),

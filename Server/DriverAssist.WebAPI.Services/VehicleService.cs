@@ -7,7 +7,6 @@ using DriverAssist.WebAPI.Common.Responses;
 using DriverAssist.WebAPI.Common.Results;
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -52,6 +51,17 @@ namespace DriverAssist.WebAPI.Services
 
         public async Task<ServiceResult> PostAsync(PostVehicleRequest request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.Make) ||
+                string.IsNullOrEmpty(request.Model) ||
+                string.IsNullOrEmpty(request.RegistrationNumber) ||
+                string.IsNullOrEmpty(request.EngineNumber))
+            {
+                return _serviceResultFactory.BadRequest(new BadRequestErrorResponse
+                {
+                    Message = "Make, Model, RegistrationNumber, EngineNumber are mandatory"
+                });
+            }
+
             var vehicle = new Vehicle
             {
                 Id = Guid.NewGuid(),
@@ -76,6 +86,8 @@ namespace DriverAssist.WebAPI.Services
                     Id = id
                 });
             }
+
+            vehicle.TypeOfFuel = ConvertTo(request.TypeOfFuel);
 
             await _vehicleRepository.UpdateAsync(vehicle, cancellationToken);
             return _serviceResultFactory.Ok(ConvertTo(vehicle));

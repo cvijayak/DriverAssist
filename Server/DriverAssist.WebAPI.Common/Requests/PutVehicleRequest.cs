@@ -2,5 +2,6 @@
 {
     public class PutVehicleRequest : RequestBase
     {
+        public FuelTypeDto TypeOfFuel { get; set; }
     }
 }
