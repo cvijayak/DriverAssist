@@ -25,8 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Infrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Common", "Server\DriverAssist.Common\DriverAssist.Common.csproj", "{59E18201-732C-45BB-A90D-75D58028F0D0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{498F8E63-1E2D-421B-9FF9-31200198C468}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.ApiClients", "Server\DriverAssist.ApiClients\DriverAssist.ApiClients.csproj", "{5748FC87-36D0-47B4-942F-DD9F29AD2491}"
 EndProject
 Global

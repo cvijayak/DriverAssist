@@ -7,6 +7,17 @@ namespace DriverAssist.Common
 {
     public static class StreamX
     {
+        public static JObject ToJObject(this Stream stream)
+        {
+            using (var streamReader = new StreamReader(stream))
+            {
+                using (var reader = new JsonTextReader(streamReader))
+                {
+                    return JObject.Load(reader);
+                }
+            }
+        }
+
         public static T ToObject<T>(this Stream stream)
         {
             using (var streamReader = new StreamReader(stream))
