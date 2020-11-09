@@ -27,10 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.Common", "Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DriverAssist.ApiClients", "Server\DriverAssist.ApiClients\DriverAssist.ApiClients.csproj", "{5748FC87-36D0-47B4-942F-DD9F29AD2491}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{1B0D5506-F53C-413D-8832-A0F1378786EA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrowsyDoc", "Client\Drowsiness_Detector\DrowsyDoc.csproj", "{D151A7F5-0875-4610-80D4-FF9E951338C7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,10 +77,6 @@ Global
 		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5748FC87-36D0-47B4-942F-DD9F29AD2491}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D151A7F5-0875-4610-80D4-FF9E951338C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D151A7F5-0875-4610-80D4-FF9E951338C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D151A7F5-0875-4610-80D4-FF9E951338C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D151A7F5-0875-4610-80D4-FF9E951338C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,7 +93,6 @@ Global
 		{7D65F2BE-6B60-4811-B90B-3B0FB5C62F40} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
 		{59E18201-732C-45BB-A90D-75D58028F0D0} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
 		{5748FC87-36D0-47B4-942F-DD9F29AD2491} = {6CF6B347-D795-4734-8915-4F7DAA6F2599}
-		{D151A7F5-0875-4610-80D4-FF9E951338C7} = {1B0D5506-F53C-413D-8832-A0F1378786EA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9366AAF9-28E5-4DFB-9C43-C52980DD60C4}
